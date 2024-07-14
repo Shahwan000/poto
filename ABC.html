@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ترجمة اكس</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    label {
+      margin-right: 10px;
+    }
+    select {
+      width: 200px;
+      height: 30px;
+    }
+    textarea {
+      width: 500px;
+      height: 100px;
+    }
+    .result-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    .result {
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <h1>ترجمة</h1>
+      <form>
+        <label for="source-language">من اللغة:</label>
+        <select id="source-language">
+          <option value="ar">العربية</option>
+          <option value="en">الإنجليزية</option>
+          <option value="fr">الفرنسية</option>
+          <option value="es">الإسبانية</option>
+        </select>
+
+        <label for="target-language">إلى اللغة:</label>
+        <select id="target-language">
+          <option value="ar">العربية</option>
+          <option value="en">الإنجليزية</option>
+          <option value="fr">الفرنسية</option>
+          <option value="es">الإسبانية</option>
+        </select>
+
+        <label for="text-to-translate">النص المراد ترجمته:</label>
+        <textarea id="text-to-translate"></textarea>
+
+        <button type="submit">ترجمة</button>
+      </form>
+    </div>
+    <div class="result-container" id="result-container">
+      <div class="result" id="result"></div>
+    </div>
+  </div>
+
+  <script>
+    // Define the API key and endpoint
+    const API_KEY = 'YOUR_API_KEY';
+    const API_ENDPOINT = 'https://www.googleapis.com/language/translate/v2';
+
+    // Get the form elements
+    const form = document.querySelector('form');
+    const sourceLanguageSelect = document.getElementById('source-language');
+    const targetLanguageSelect = document.getElementById('target-language');
+    const textToTranslateTextarea = document.getElementById('text-to-translate');
+    const resultContainer = document.getElementById('result-container');
+    const resultDiv = document.getElementById('result');
+
+    // Add an event listener for the form submit event
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      // Get the source and target languages and the text to translate
+      const sourceLanguage = sourceLanguageSelect.value;
+      const targetLanguage = targetLanguageSelect.value;
+      const textToTranslate = textToTranslateTextarea.value;
+
+      // Construct the request body
+      const requestBody = {
+        q: textToTranslate,
+        source: sourceLanguage,
+        target: targetLanguage,
+        format: 'text',
+      };
+
+      // Make the API request
+      fetch(`${API_ENDPOINT}?key=${API_KEY}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        // Get the translated text from the response
+        const translatedText = data.data.translations[0].translatedText;
+
+        // Display the translated text in the result container
+        resultDiv.textContent = translatedText;
+      })
+      .catch((error) => {
+        console.error('Error querying API: ', error);
+        alert('حدث خطأ أثناء الترجمة. يرجى المحاولة مرة أخرى.');
+      });
+    });
+  </script>
+</body>
+</html>
