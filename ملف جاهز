@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مثال HTML</title>
+</head>
+<body>
+
+    <h1>مثال على دمج الكلمات</h1>
+    <p>الكلمات المضافة:</p>
+    <pre id="words"></pre>
+
+    <script>
+        const words = {
+            "جدكي": "𐺆𐺋𐺝𐺨",
+            "اخبار جينا": "𐺀𐺊𐺁𐺀𐺍 𐺆𐺨𐺢𐺀",
+            "ودعي وا": "𐺣𐺋𐺗𐺨 𐺣𐺀",
+            "زارو جلونا": "𐺏𐺀𐺍𐺣 𐺆𐺠𐺣𐺢𐺀",
+            "جي هيا جي نينا": "𐺆𐺨 𐺧𐺨𐺀 𐺆𐺨 𐺢𐺨𐺀",
+            "هوني جنا كيدري": "𐺧𐺣𐺢𐺨 𐺆𐺢𐺀 𐺝𐺨𐺋𐺍𐺨",
+            "خودي وا ب ستريني": "𐺊𐺣𐺋𐺨 𐺣𐺀 𐺁 𐺑𐺄𐺍𐺨𐺢𐺨"
+        };
+
+        document.getElementById('words').textContent = JSON.stringify(words, null, 2);
+    </script>
+
+</body>
+</html>
